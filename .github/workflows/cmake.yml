@@ -37,7 +37,7 @@ jobs:
       if: runner.os == 'Windows'
       run: |
         cmake --install build --config Debug
-        cmake -S test/app -B test/app/build -DCMAKE_INSTALL_PREFIX=tmp/install
+        cmake -S test/app -B test/app/build -DCMAKE_PREFIX_PATH=tmp/install
         cmake --build test/app/build
         $Env:PATH = "$PWD\tmp\install\bin;$Env:PATH"
         test/app/build/Debug/app.exe
@@ -45,7 +45,7 @@ jobs:
       if: runner.os != 'Windows'
       run: |
         cmake --install build
-        cmake -S test/app -B test/app/build -DCMAKE_INSTALL_PREFIX=tmp/install
+        cmake -S test/app -B test/app/build -DCMAKE_PREFIX_PATH=tmp/install
         cmake --build test/app/build
         test/app/build/app
 
@@ -67,7 +67,7 @@ jobs:
     - name: Build
       run: |
         mkdir build
-        cmake -S . -B build -DBUILD_SHARED_LIBS=${{ matrix.shared }} -DUTF8PROC_ENABLE_TESTING=ON -G'MSYS Makefiles' -DCMAKE_INSTALL_PREFIX=tmp/install
+        cmake -S . -B build -DBUILD_SHARED_LIBS=${{ matrix.shared }} -DUTF8PROC_ENABLE_TESTING=ON -G'MSYS Makefiles' -DCMAKE_PREFIX_PATH=tmp/install
         cmake --build build
     - name: Run Test
       run: ctest --test-dir build -V
